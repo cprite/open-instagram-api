@@ -2,10 +2,11 @@
 Auth: header `Authorization: Bearer <contents of ./api_token>`."""
 import os
 import secrets
+import tempfile
 from pathlib import Path
 
 import uvicorn
-from fastapi import Depends, FastAPI, Header, HTTPException, Query
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Query, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -19,7 +20,7 @@ if not TOKEN_FILE.exists():
 API_TOKEN = TOKEN_FILE.read_text().strip()
 
 ig = Instagram()
-app = FastAPI(title="Open Instagram API", version="0.2")
+app = FastAPI(title="Open Instagram API", version="0.3")
 
 
 def auth(authorization: str = Header(default="")):
@@ -62,9 +63,13 @@ def thread(thread_fbid: str):
 
 
 @app.get("/threads/{thread_fbid}/messages", dependencies=[Depends(auth)])
-def messages(thread_fbid: str):
+def messages(thread_fbid: str, cursor: str | None = Query(None, description="next_cursor for older messages")):
+    if cursor:
+        return {"thread_fbid": thread_fbid, **ig.older_messages(thread_fbid, cursor)}
     t = ig.thread(thread_fbid)
-    return {"thread_fbid": t["thread_fbid"], "messages": t["messages"], "page_info": t["page_info"]}
+    pi = t["page_info"] or {}
+    return {"thread_fbid": t["thread_fbid"], "messages": t["messages"],
+            "next_cursor": pi.get("end_cursor") if pi.get("has_next_page") else None}
 
 
 @app.post("/threads/{thread_fbid}/messages", dependencies=[Depends(auth)])
@@ -233,6 +238,144 @@ def notifications(raw: bool = Raw):
 @app.get("/saved", dependencies=A)
 def saved(raw: bool = Raw):
     return ig.saved(12, raw)
+
+
+# ======================= Phase C: social writes =======================
+@app.post("/media/{code}/like", dependencies=A)
+def like(code: str):
+    return ig.like(code)
+
+
+@app.delete("/media/{code}/like", dependencies=A)
+def unlike(code: str):
+    return ig.unlike(code)
+
+
+@app.post("/media/{code}/save", dependencies=A)
+def save(code: str):
+    return ig.save(code)
+
+
+@app.delete("/media/{code}/save", dependencies=A)
+def unsave(code: str):
+    return ig.unsave(code)
+
+
+@app.post("/users/{user}/follow", dependencies=A)
+def follow(user: str):
+    return ig.follow(user)
+
+
+@app.delete("/users/{user}/follow", dependencies=A)
+def unfollow(user: str):
+    return ig.unfollow(user)
+
+
+@app.get("/users/{user}/friendship", dependencies=A)
+def friendship(user: str):
+    return ig.friendship(user)
+
+
+# ======================= Phase D: publishing =======================
+class CaptionBody(BaseModel):
+    caption: str = Field(max_length=2200)
+
+
+class CommentBody(BaseModel):
+    text: str = Field(min_length=1, max_length=2200)
+
+
+@app.post("/media", dependencies=A)
+def publish(files: list[UploadFile] = File(..., description="1 image = photo post, 2-10 = carousel"),
+            caption: str = Form("")):
+    if not 1 <= len(files) <= 10:
+        raise HTTPException(400, "send 1-10 images")
+    with tempfile.TemporaryDirectory() as td:
+        paths = []
+        for i, f in enumerate(files):
+            p = Path(td) / f"{i}_{Path(f.filename or 'img.jpg').name}"
+            p.write_bytes(f.file.read())
+            paths.append(str(p))
+        return ig.post_photo(paths[0], caption) if len(paths) == 1 else ig.post_carousel(paths, caption)
+
+
+@app.patch("/media/{code}", dependencies=A)
+def edit_caption(code: str, body: CaptionBody):
+    return ig.edit_caption(code, body.caption)
+
+
+@app.post("/media/{code}/comments", dependencies=A)
+def add_comment(code: str, body: CommentBody):
+    return ig.comment(code, body.text)
+
+
+@app.delete("/media/{code}/comments/{comment_pk}", dependencies=A)
+def delete_comment(code: str, comment_pk: str):
+    return ig.delete_comment(code, comment_pk)
+
+
+# ======================= Phase B: more DMs =======================
+class ReactBody(BaseModel):
+    emoji: str = Field("❤", min_length=1, max_length=8)
+
+
+class ShareBody(BaseModel):
+    thread_id: str | None = None
+    users: list[str] | None = None
+
+
+@app.post("/threads/{thread_fbid}/photos", dependencies=A)
+def send_dm_photo(thread_fbid: str, file: UploadFile = File(...), reply_to_message_id: str | None = Form(None)):
+    with tempfile.TemporaryDirectory() as td:
+        p = Path(td) / Path(file.filename or "photo.jpg").name
+        p.write_bytes(file.file.read())
+        return ig.send_photo(thread_fbid, str(p), reply_to_message_id)
+
+
+@app.delete("/threads/{thread_fbid}/messages/{message_id}", dependencies=A)
+def unsend(thread_fbid: str, message_id: str):
+    return ig.unsend(thread_fbid, message_id)
+
+
+@app.post("/threads/{thread_fbid}/messages/{message_id}/reactions", dependencies=A)
+def react(thread_fbid: str, message_id: str, body: ReactBody):
+    return ig.react(thread_fbid, message_id, body.emoji)
+
+
+@app.delete("/threads/{thread_fbid}/messages/{message_id}/reactions", dependencies=A)
+def unreact(thread_fbid: str, message_id: str, emoji: str = Query("❤")):
+    return ig.unreact(thread_fbid, message_id, emoji)
+
+
+@app.post("/media/{code}/share", dependencies=A)
+def share(code: str, body: ShareBody):
+    return ig.share_media(code, body.thread_id, body.users)
+
+
+# ======================= Phase E: own account =======================
+class ProfileBody(BaseModel):
+    biography: str | None = Field(None, max_length=150)
+    first_name: str | None = Field(None, max_length=64)
+    username: str | None = Field(None, min_length=1, max_length=30)
+
+
+class PrivacyBody(BaseModel):
+    private: bool
+
+
+@app.get("/account", dependencies=A)
+def account():
+    return ig.account()
+
+
+@app.patch("/account", dependencies=A)
+def edit_account(body: ProfileBody):
+    return ig.edit_profile(body.biography, body.first_name, body.username)
+
+
+@app.put("/account/privacy", dependencies=A)
+def set_privacy(body: PrivacyBody):
+    return ig.set_private(body.private)
 
 
 if __name__ == "__main__":

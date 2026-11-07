@@ -115,6 +115,7 @@ class IGDirect:
                 "hsi": pat(r'"hsi":"(\d+)"'),
                 "spin_t": pat(r'"__spin_t":(\d+)'),
                 "spin_b": pat(r'"__spin_b":"([^"]+)"') or "trunk",
+                "fb_dtsg_full": pat(r'"(NA[A-Za-z0-9_-]{20,}:\d{10,}:\d{9,})"'),
             }
             missing = [k for k in ("fb_dtsg", "lsd", "av", "rev") if not t[k]]
             if missing:
@@ -154,10 +155,10 @@ class IGDirect:
                 wait = WRITE_MIN_INTERVAL - (time.time() - self._last_write)
                 if wait > 0:
                     time.sleep(wait + random.uniform(0, 0.8))
-            t, doc = self.tokens, self.doc_ids.get(name) or self.catalog.doc_id(name)
+            t, doc = self.tokens, self.catalog.doc_id(name) or self.doc_ids.get(name)   # captured ids are verified; bundles can hold other variants
             if not doc:
                 self.refresh_doc_ids()
-                doc = self.doc_ids.get(name) or self.catalog.doc_id(name)
+                doc = self.catalog.doc_id(name) or self.doc_ids.get(name)
                 if not doc:
                     raise IGError(f"no doc_id for {name}")
             data = {
@@ -412,7 +413,8 @@ class IGDirect:
         """Call a catalogued GraphQL operation with its captured template + overrides."""
         return self.gql(name, self.catalog.variables(name, overrides, drop), write=write)
 
-    def rest(self, method: str, path: str, params: dict | None = None, data: dict | None = None, write=False):
+    def rest(self, method: str, path: str, params: dict | None = None, data: dict | None = None, write=False,
+             json_body: dict | None = None):
         """Call a www.instagram.com/api/v1/... REST endpoint the web client still uses."""
         self.bootstrap()
         with self.lock:
@@ -424,8 +426,16 @@ class IGDirect:
             h = {"X-IG-App-ID": APP_ID, "X-ASBD-ID": ASBD_ID, "X-CSRFToken": csrf, "X-Requested-With": "XMLHttpRequest",
                  "X-IG-WWW-Claim": self.state.get("www_claim", "0"), "Referer": "https://www.instagram.com/",
                  "Origin": "https://www.instagram.com"}
+            if write:
+                h["X-Instagram-AJAX"] = str(self.tokens.get("rev") or "")
+                dt = self.tokens.get("fb_dtsg_full") or self.tokens.get("fb_dtsg")
+                sign = {"fb_dtsg": dt, "jazoest": "2" + str(sum(map(ord, dt)))}
+                if json_body is not None:
+                    json_body = {**json_body, **sign}
+                elif data is not None:
+                    data = {**data, **sign}
             r = self.s.request(method, "https://www.instagram.com/api/v1/" + path.lstrip("/"), params=params, data=data,
-                               headers=h, timeout=30, allow_redirects=False)
+                               json=json_body, headers=h, timeout=60, allow_redirects=False)
             if write:
                 self._last_write = time.time()
         claim = r.headers.get("x-ig-set-www-claim")
@@ -437,11 +447,36 @@ class IGDirect:
                 raise SessionExpired(f"REST {path}: {r.status_code}")
         if r.status_code == 429:
             raise IGError(f"REST {path}: rate limited by Instagram (429)", 429)
+        body = r.text[9:] if r.text.startswith("for (;;);") else r.text
         try:
-            j = r.json()
+            j = json.loads(body)
         except ValueError:
             raise IGError(f"REST {path}: HTTP {r.status_code}, not JSON (endpoint moved?)", 502, r.text[:200])
+        if isinstance(j, dict) and "payload" in j and "__ar" in j:        # comet envelope used by /web/... endpoints
+            j = j["payload"] if isinstance(j["payload"], dict) else {"payload": j["payload"]}
         if r.status_code >= 400 or j.get("status") == "fail":
             raise IGError(f"REST {path}: {j.get('message') or r.status_code}", 400 if r.status_code < 500 else 502, j)
         self._persist_cookies()
+        return j
+
+    def rupload(self, kind: str, upload_id: str, blob: bytes, params: dict, content_type: str | None):
+        """POST raw bytes to /rupload_igphoto|igvideo/fb_uploader_<upload_id> (the web upload endpoint)."""
+        self.bootstrap()
+        name = f"fb_uploader_{upload_id}"
+        h = {"Offset": "0", "X-Entity-Length": str(len(blob)), "X-Entity-Name": name,
+             "X-Instagram-Rupload-Params": json.dumps(params, separators=(",", ":")), "X-IG-App-ID": APP_ID,
+             "X-ASBD-ID": ASBD_ID, "X-CSRFToken": self.s.cookies.get("csrftoken", domain=".instagram.com") or "",
+             "X-Instagram-AJAX": str(self.tokens.get("rev") or ""), "Origin": "https://www.instagram.com",
+             "Referer": "https://www.instagram.com/"}
+        if content_type:
+            h["Content-Type"] = content_type
+            h["X-Entity-Type"] = content_type
+        with self.lock:
+            r = self.s.post(f"https://www.instagram.com/rupload_{kind}/{name}", data=blob, headers=h, timeout=180)
+        try:
+            j = r.json()
+        except ValueError:
+            raise IGError(f"upload ({kind}) HTTP {r.status_code}", 502, r.text[:200])
+        if j.get("status") != "ok":
+            raise IGError(f"upload ({kind}) failed", 502, j)
         return j

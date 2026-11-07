@@ -221,7 +221,12 @@ class ReadMixin:
     # ---------- media ----------
     def media_info(self, code: str, raw=False):
         code = code if not str(code).isdigit() else pk_to_shortcode(code)
-        d = self.op("PolarisPostRootQuery", {"shortcode": code})
+        try:
+            d = self.op("PolarisPostRootQuery", {"shortcode": code})
+        except IGError as e:
+            if e.status == 502 and "GraphQL errors" in str(e):   # deleted / unavailable post
+                raise IGError(f"post {code} not found", 404, e.detail)
+            raise
         items = (d.get("xdt_api__v1__media__shortcode__web_info") or {}).get("items") or []
         if not items:
             raise IGError(f"post {code} not found", 404)
