@@ -116,7 +116,52 @@ Observations:
   (`should_limit_list_of_followers: true`, no `next_max_id`), the same as on instagram.com.
 - **Shortcode and media pk** are the same number: base64 over `A-Za-z0-9-_`.
 
-## 4. Realtime: Meta DGW WebSocket gateways
+## 4. Writes: actions, publishing, DMs, account
+
+All of these were captured from instagram.com and re-sent from a script; each was verified by reading the result back.
+
+| Feature | Operation (or endpoint) | Key inputs |
+|---|---|---|
+| like / unlike | `usePolarisLikeMediaXIGLikeMutation` / `…XIGUnlikeMutation` | `input: {actor_id, client_mutation_id, media_id}` |
+| save / unsave | `usePolarisSaveMediaSaveMutation` / `…UnsaveMutation` | same `input` shape |
+| follow / unfollow | `usePolarisFollowMutation` / `usePolarisUnfollowMutation` | `target_user_id`, `container_module` |
+| comment | `PolarisPostCommentInputRevampedMutation` | `data: {comment_text, media_id}`, `root_connections: []` |
+| delete comment | `usePolarisPostDeleteCommentMutation` | `input: {actor_id, comment_id, media_id}` |
+| photo post | `POST /rupload_igphoto/fb_uploader_<upload_id>` (raw JPEG, `X-Instagram-Rupload-Params`), then REST `POST /api/v1/media/configure/` | `upload_id`, `caption` |
+| carousel | one rupload per image, then REST `POST /api/v1/media/configure_sidecar/` (JSON) | `children_metadata: [{upload_id}]` |
+| edit caption | REST `POST /api/v1/media/<pk>/edit_media/` (JSON) | `caption_text` |
+| DM photo | `POST https://rupload.instagram.com/messenger_image/<uuid>?<page params>`, then `IGDirectMediaSendMutation` | `attachment_fbid`, `thread_id` |
+| unsend | `IGDMessageUnsendDialogOffMsysMutation` | `message_id`, `send_data.thread_id` (long thread id) |
+| react | `IGDirectReactionSendMutation` | `input: {emoji, message_id, thread_id, reaction_status: created\|deleted}` |
+| share to chat | `IGDirectReelShareMutation` | `ig_media_igid`, `data.thread_id` or `data.recipient_users` |
+| older messages | `IGDMessageListOffMsysQuery` | `id` (thread_fbid), `after` (cursor), `first` |
+| edit profile | REST `POST /api/v1/web/accounts/edit/` (form) | `biography`, `first_name`, `username`, `chaining_enabled` |
+| private / public | `useSettings2UpdateBooleanStorageMutation` | `storage_id: "account_privacy_setting"`, `value`, `callsite` |
+
+REST writes are signed with `fb_dtsg` (the long `NA…:<n>:<ts>` variant from the page HTML) and `jazoest`.
+
+### What a script can't do
+
+Some actions are accepted by Instagram only from its own page JavaScript. From a script they return `null`
+(or `{"payload": null}`) and nothing happens, even when the exact browser request is replayed from inside the page:
+
+- block / unblock, restrict / unrestrict (`usePolarisBlockManyMutation`, `usePolarisUnblockMutation`, …). A web REST
+  endpoint, `POST /api/v1/web/friendships/<pk>/block/`, does block, but there is no working way to undo it from a
+  script, so the API leaves blocking out entirely
+- deleting a post (`/api/v1/web/create/<pk>_<owner>/delete/`)
+- publishing a reel (`/api/v1/media/configure_to_clips/`)
+
+The failing endpoints answer in Meta's `for (;;);{"__ar":1,"payload":…}` envelope and carry per-request page fields
+(`__dyn`, `__csr`, `__hsdp`, …) that look like request-time integrity values.
+
+Also unavailable on the web client: editing DMs (the web menu only has Forward / Pin / Unsend), creating stories
+and highlights on desktop, and muting chats (done over the Lightspeed WebSocket, which this client doesn't implement).
+
+> **Warning:** don't probe guessed REST write endpoints with web cookies. Calls to mobile-only paths such as
+> `restrict_action/...` answered with a redirect to login, and the session was logged out right after, twice.
+> Only call endpoints you've seen the website use.
+
+## 5. Realtime: Meta DGW WebSocket gateways
 
 The page opens:
 - `wss://gateway.instagram.com/ws/{lightspeed,realtime,streamcontroller,rpsignaling,mqttbypass}?x-dgw-appid=936619743392459&x-dgw-appversion=0&x-dgw-authtype=6:0&x-dgw-version=5&x-dgw-uuid=<actor id>&x-dgw-tier=prod&x-dgw-deviceid=<device uuid>`
