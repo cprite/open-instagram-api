@@ -23,10 +23,42 @@
    "thread_fbid": ""
   }
  },
+ "IGDInboxInfoOffMsysQuery": {
+  "doc_id": "28792367400422466",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDEnableOffMsysChatThemesQErelayprovider": false,
+   "thread_fbid": ""
+  }
+ },
  "IGDInboxTrayQuery": {
   "doc_id": "29231580869776032",
   "kind": "query",
   "variables": {}
+ },
+ "IGDMessageListOffMsysQuery": {
+  "doc_id": "28947835764870439",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDInitialMessagePageCountrelayprovider": 20,
+   "after": "",
+   "before": null,
+   "first": 20,
+   "id": "",
+   "last": null,
+   "newer_than_message_id": null,
+   "older_than_message_id": null
+  }
+ },
+ "IGDMessageUnsendDialogOffMsysMutation": {
+  "doc_id": "26948700068153789",
+  "kind": "mutation",
+  "variables": {
+   "message_id": "",
+   "send_data": {
+    "thread_id": ""
+   }
+  }
  },
  "IGDOmniPickerNullStateListQuery": {
   "doc_id": "27657376130569675",
@@ -66,6 +98,63 @@
   "doc_id": "27105976072392132",
   "kind": "query",
   "variables": {}
+ },
+ "IGDUserMessageRowMoreActionsMenuOffMsysQuery": {
+  "doc_id": "40052086927723104",
+  "kind": "query",
+  "variables": {
+   "message_id": "",
+   "sender_id": "",
+   "shouldFetchInspectData": false,
+   "thread_fbid": ""
+  }
+ },
+ "IGDirectMediaSendMutation": {
+  "doc_id": "28887524104237595",
+  "kind": "mutation",
+  "variables": {
+   "attachment_fbid": "",
+   "forwarded_from_thread_id": null,
+   "is_forwarded_from_own_message": null,
+   "offline_threading_id": "",
+   "reply_to_message_id": null,
+   "thread_id": ""
+  }
+ },
+ "IGDirectReactionSendMutation": {
+  "doc_id": "28788023287533800",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "emoji": "",
+    "item_id": "",
+    "message_id": "",
+    "reaction_status": "created",
+    "thread_id": ""
+   }
+  }
+ },
+ "IGDirectReelShareMutation": {
+  "doc_id": "28509600205408270",
+  "kind": "mutation",
+  "variables": {
+   "clip_share_params": {
+    "inventory_source": "",
+    "send_attribution": "",
+    "social_context_share_type": null,
+    "text": null,
+    "tracking_token": null
+   },
+   "data": {
+    "forwarded_from_thread_id": null,
+    "is_forwarded_from_own_message": null,
+    "offline_threading_id": "",
+    "recipient_users": "",
+    "thread_id": null
+   },
+   "ig_media_igid": "",
+   "otid": ""
+  }
  },
  "IGDirectTextSendMutation": {
   "doc_id": "28737274835943013",
@@ -185,6 +274,15 @@
    },
    "first": 10,
    "last": null
+  }
+ },
+ "PolarisCreationEditRootQuery": {
+  "doc_id": "28709121012055972",
+  "kind": "query",
+  "variables": {
+   "include_longform_clip_metadata": false,
+   "include_trial_status": false,
+   "shortcode": ""
   }
  },
  "PolarisDesktopPostPageRelatedMediaGridQuery": {
@@ -308,6 +406,17 @@
    "first": null,
    "last": null,
    "parent_comment_id": ""
+  }
+ },
+ "PolarisPostCommentInputRevampedMutation": {
+  "doc_id": "29086430320952860",
+  "kind": "mutation",
+  "variables": {
+   "data": {
+    "comment_text": "",
+    "media_id": ""
+   },
+   "root_connections": []
   }
  },
  "PolarisPostCommentsContainerQuery": {
@@ -485,11 +594,64 @@
    "user_id": ""
   }
  },
+ "PolarisSavedCollectionPickerQuery": {
+  "doc_id": "29115677831365401",
+  "kind": "query",
+  "variables": {
+   "first": 20
+  }
+ },
  "PolarisSchoolPartnerProfileBadgeQuery": {
   "doc_id": "28647748031575520",
   "kind": "query",
   "variables": {
    "igid": ""
+  }
+ },
+ "PolarisSettingsDesktopContainerQuery": {
+  "doc_id": "29270152952674621",
+  "kind": "query",
+  "variables": {
+   "showSideMenu": true
+  }
+ },
+ "PolarisSettingsElevationEditProfilePageQuery": {
+  "doc_id": "27683469494656481",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisAIGMWebSelfDisclosureEnabledrelayprovider": true
+  }
+ },
+ "PolarisSettingsTierOneDependenciesRefetchQuery": {
+  "doc_id": "28722125747422845",
+  "kind": "query",
+  "variables": {}
+ },
+ "PolarisShareSheetV3NullStateQuery": {
+  "doc_id": "36651079954537487",
+  "kind": "query",
+  "variables": {
+   "input": {
+    "count_per_page": 20,
+    "is_private_share": false,
+    "views": [
+     "RESHARE_SHARE_SHEET"
+    ]
+   }
+  }
+ },
+ "PolarisShareSheetV3PostShareBarQuery": {
+  "doc_id": "38411409638474248",
+  "kind": "query",
+  "variables": {
+   "media_id": ""
+  }
+ },
+ "PolarisShareSheetV3SearchResultsListQuery": {
+  "doc_id": "27644281435195796",
+  "kind": "query",
+  "variables": {
+   "search_text": ""
   }
  },
  "PolarisStoriesV3HighlightsPageQuery": {
@@ -561,6 +723,62 @@
    "trigger_context": null
   }
  },
+ "Settings2PageQuery": {
+  "doc_id": "38245370928439435",
+  "kind": "query",
+  "variables": {
+   "boolean_server_values_ids": [
+    "is_feta_account",
+    "is_gizmo_eligible",
+    "should_restrict_message_settings",
+    "is_uk_osa_enrolled_supervised_teen",
+    "is_uk_osa_enrolled_early_teen",
+    "is_uk_osa_enrolled_late_teen"
+   ],
+   "boolean_setting_ids": [
+    "account_privacy_setting",
+    "seo_indexing_opt_out",
+    "hide_followers_following_list",
+    "hide_self_from_others_lists"
+   ],
+   "string_server_values_ids": [],
+   "string_setting_ids": []
+  }
+ },
+ "fetchFBCrosspostingMetadataQuery": {
+  "doc_id": "26522057364088681",
+  "kind": "query",
+  "variables": {
+   "caller_name": "",
+   "custom_partner_params": [
+    {
+     "key": "CROSSPOSTING_DESTINATION_APP",
+     "value": "FB"
+    },
+    {
+     "key": "CROSSPOSTING_SHARE_TO_SURFACE",
+     "value": ""
+    },
+    {
+     "key": "SHOULD_RETURN_AUTO_XPOST_SETTING",
+     "value": "true"
+    }
+   ],
+   "service_names": [
+    "CROSS_POSTING_SETTING"
+   ]
+  }
+ },
+ "fetchThreadsCrosspostingMetadataQuery": {
+  "doc_id": "27022049860735367",
+  "kind": "query",
+  "variables": {}
+ },
+ "useCustomGenderConsentedQuery": {
+  "doc_id": "27107000892252363",
+  "kind": "query",
+  "variables": {}
+ },
  "useFeatureLimitsOffMsysQuery": {
   "doc_id": "28374543635529813",
   "kind": "query",
@@ -611,11 +829,152 @@
    "thread_fbid": ""
   }
  },
+ "useIsCreatorOnboardedToCreatorMarketplaceQuery": {
+  "doc_id": "26755395460787013",
+  "kind": "query",
+  "variables": {}
+ },
+ "usePolarisBlockManyMutation": {
+  "doc_id": "39536170752648758",
+  "kind": "mutation",
+  "variables": {
+   "surface": null,
+   "target_user_ids": []
+  }
+ },
+ "usePolarisCoppaEnforcementStatusViewerQuery": {
+  "doc_id": "26997432079894181",
+  "kind": "query",
+  "variables": {}
+ },
+ "usePolarisFollowMutation": {
+  "doc_id": "26508036048874888",
+  "kind": "mutation",
+  "variables": {
+   "container_module": "profile",
+   "nav_chain": "",
+   "target_user_id": ""
+  }
+ },
+ "usePolarisLikeMediaXIGLikeMutation": {
+  "doc_id": "27182485238052618",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "container_module": "single_post",
+    "media_id": "",
+    "tracking_token": ""
+   }
+  }
+ },
+ "usePolarisLikeMediaXIGUnlikeMutation": {
+  "doc_id": "27345296031770102",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "media_id": "",
+    "tracking_token": ""
+   }
+  }
+ },
  "usePolarisNotificationsNavItemQuery": {
   "doc_id": "26853171684350625",
   "kind": "query",
   "variables": {
    "device_id": ""
+  }
+ },
+ "usePolarisPostDeleteCommentMutation": {
+  "doc_id": "27034318419564986",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "comment_id": "",
+    "media_id": ""
+   }
+  }
+ },
+ "usePolarisRestrictMutation": {
+  "doc_id": "28678135555209082",
+  "kind": "mutation",
+  "variables": {
+   "target_user_ids": []
+  }
+ },
+ "usePolarisSaveMediaSaveMutation": {
+  "doc_id": "27365486596441074",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "container_module": "single_post",
+    "inventory_source": null,
+    "logging_info_token": null,
+    "media_id": "",
+    "nav_chain": ""
+   }
+  }
+ },
+ "usePolarisSaveMediaUnsaveMutation": {
+  "doc_id": "27371251859134880",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "media_id": ""
+   }
+  }
+ },
+ "usePolarisSetGenderMutation": {
+  "doc_id": "37916532461294457",
+  "kind": "mutation",
+  "variables": {
+   "input": {
+    "actor_id": "",
+    "client_mutation_id": "",
+    "custom_gender": "",
+    "gender": "UNSPECIFIED"
+   }
+  }
+ },
+ "usePolarisUnblockMutation": {
+  "doc_id": "28470365199292368",
+  "kind": "mutation",
+  "variables": {
+   "target_user_id": ""
+  }
+ },
+ "usePolarisUnfollowMutation": {
+  "doc_id": "27789106940691111",
+  "kind": "mutation",
+  "variables": {
+   "container_module": "profile",
+   "nav_chain": "",
+   "target_user_id": ""
+  }
+ },
+ "usePolarisUnrestrictMutation": {
+  "doc_id": "29456204210646604",
+  "kind": "mutation",
+  "variables": {
+   "target_user_id": ""
+  }
+ },
+ "useSettings2UpdateBooleanStorageMutation": {
+  "doc_id": "38634335936180188",
+  "kind": "mutation",
+  "variables": {
+   "callsite": "",
+   "storage_id": "account_privacy_setting",
+   "value": false
   }
  }
 }
