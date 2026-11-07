@@ -1,0 +1,18 @@
+# secrets / session — never commit
+cookies.json
+cookies.*
+api_token
+state.json
+autoreply.json
+autoreply_state.json
+autoreply_override.json
+*.tmp
+# captures contain session data
+*.har
+evidence/
+tools/.profile/
+# misc
+__pycache__/
+*.pyc
+node_modules/
+*.log

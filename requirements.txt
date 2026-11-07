@@ -1,0 +1,7 @@
+requests>=2.31
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2
+# reverse-engineering tools only (tools/):
+playwright>=1.45
+websockets>=12

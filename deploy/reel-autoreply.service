@@ -1,0 +1,17 @@
+# systemd --user unit for the example bot (needs open-instagram-api.service)
+[Unit]
+Description=Open Instagram API example: reel auto-reply
+After=open-instagram-api.service
+Wants=open-instagram-api.service
+
+[Service]
+WorkingDirectory=%h/open-instagram-api
+ExecStart=/usr/bin/python3 %h/open-instagram-api/examples/reel_autoreply.py
+Restart=always
+RestartSec=30
+MemoryMax=120M
+UMask=0077
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

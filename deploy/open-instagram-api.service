@@ -1,0 +1,17 @@
+# systemd --user unit: cp to ~/.config/systemd/user/ && systemctl --user enable --now open-instagram-api
+[Unit]
+Description=Open Instagram API (127.0.0.1:8765)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=%h/open-instagram-api
+ExecStart=/usr/bin/python3 %h/open-instagram-api/server.py
+Restart=always
+RestartSec=10
+MemoryMax=250M
+UMask=0077
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
