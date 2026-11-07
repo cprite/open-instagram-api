@@ -1,4 +1,4 @@
-# Instagram web messaging: protocol notes
+# Instagram web client: protocol notes
 
 These are observations from the Instagram web client (`www.instagram.com`, web build `1053591692`, November 2026),
 captured over the Chrome DevTools Protocol and analysed with [REA](https://github.com/morluto/rea). IDs below are
@@ -79,7 +79,44 @@ A **reel** is an XMA with `target_url` `instagram.com/reel/<shortcode>/` and `pr
 Posts use `/p/` and stories `/stories/`. Outgoing messages that contain a URL also come back as XMA link shares,
 with the text preserved in `text_body`.
 
-## 3. Realtime: Meta DGW WebSocket gateways
+## 3. Read-only browsing (profiles, posts, stories, comments, feeds)
+
+Same GraphQL transport. Each web page type uses its own persisted operation; `ops_catalog.json` holds each
+operation's doc_id and full variable template (with the `__relay_internal__pv__*` flags the server expects), built
+from captures by `tools/build_catalog.py`. Some pages make no XHR at all: their queries are preloaded in the HTML
+under `"expectedPreloaders":[{"queryID","variables","queryName"}]`, which the catalog builder also reads.
+
+| Feature | Operation (or REST) | Key variables |
+|---|---|---|
+| search | `PolarisSearchBoxRefetchableQuery` | `data.query`, `data.context: "blended"`, `data.search_surface: "web_top_search"`, `hasQuery` |
+| profile | `PolarisProfilePageContentQuery` | `id` (user pk) |
+| posts | `PolarisProfilePostsQuery`, then `PolarisProfilePostsTabContentQuery_connection` | `username`, `data.count` (>= 6), `after` |
+| reels tab | `PolarisProfileReelsTabContentQuery` / `…_connection` | `user_id`/`id`, `data.target_user_id`, `after` |
+| tagged | `PolarisProfileTaggedTabContentQuery` | `user_id`, `count` |
+| highlights | `PolarisProfileStoryHighlightsTrayContentQuery`; items `PolarisStoriesV3HighlightsPageQuery` | `user_id`; `reel_ids: ["highlight:<id>"]` |
+| stories | `PolarisStoriesV3ReelPageStandaloneQuery`; tray `PolarisStoriesV3TrayContainerQuery` | `reel_ids_arr: [<user pk>]` |
+| post | `PolarisPostRootQuery` (preloaded) | `shortcode` |
+| comments | `PolarisPostCommentsContainerQuery` (preloaded), then `PolarisPostCommentsPaginationQuery` | `media_id`, `after`, `sort_order` |
+| replies | `PolarisPostChildCommentsQuery` | `parent_comment_id`, `after` |
+| reels feed | `PolarisClipsTabDesktopPaginationQuery` | `after` |
+| hashtag | `PolarisKeywordSearchExplorePageRelayQuery` | `query: "#tag"` |
+| location | `PolarisLocationPageTabContentQuery` (preloaded) / `…_connection` | `location_id`, `tab: ranked\|recent`, `after` |
+| likers | REST `GET /api/v1/media/<pk>/likers/` | |
+| followers | REST `GET /api/v1/friendships/<pk>/followers/` (`following/`) | `count`, `max_id` |
+| home feed | REST `GET /api/v1/feed/timeline/` | `max_id` |
+| explore | REST `GET /api/v1/discover/web/explore_grid/` | `max_id` |
+| notifications | REST `GET /api/v1/news/inbox/` | |
+
+Observations:
+- **Gone from web REST:** `users/web_profile_info` (always 429 outside Instagram's own page loads), `users/<pk>/info`,
+  `feed/user/<pk>`, `media/<pk>/comments`, `web/search/topsearch`.
+- **Username to pk:** the plain-HTTP profile page carries no ids; exact match in search results is reliable (works for
+  private accounts too).
+- **Follower lists of other people's large accounts** stop after the first page
+  (`should_limit_list_of_followers: true`, no `next_max_id`), the same as on instagram.com.
+- **Shortcode and media pk** are the same number: base64 over `A-Za-z0-9-_`.
+
+## 4. Realtime: Meta DGW WebSocket gateways
 
 The page opens:
 - `wss://gateway.instagram.com/ws/{lightspeed,realtime,streamcontroller,rpsignaling,mqttbypass}?x-dgw-appid=936619743392459&x-dgw-appversion=0&x-dgw-authtype=6:0&x-dgw-version=5&x-dgw-uuid=<actor id>&x-dgw-tier=prod&x-dgw-deviceid=<device uuid>`
