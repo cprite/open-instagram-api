@@ -191,6 +191,11 @@ class IGDirect:
             raise IGError(f"{name}: IG error {code} {j.get('errorSummary')}", 502, j.get("errorDescription"))
         if j.get("errors") and not j.get("data"):
             msg = json.dumps(j["errors"])[:400]
+            if "logged out" in msg.lower() or "1675002" in msg:   # session revoked server-side
+                if _retry:
+                    self.bootstrap(force=True)   # raises SessionExpired if the page is logged out too
+                    return self.gql(name, variables, write, _retry=False)
+                raise SessionExpired(j["errors"])
             if _retry and ("doc_id" in msg.lower() or "persisted" in msg.lower()):
                 self.refresh_doc_ids()
                 return self.gql(name, variables, write, _retry=False)
