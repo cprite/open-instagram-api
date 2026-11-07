@@ -18,9 +18,12 @@ from pathlib import Path
 
 import requests
 
+from .ops import Catalog
+
 HOME = Path(os.environ.get("IGDM_HOME", Path(__file__).resolve().parent.parent))
 COOKIES = HOME / "cookies.json"
 DOC_IDS = HOME / "doc_ids.json"
+CATALOG = Path(os.environ.get("IGDM_CATALOG", Path(__file__).resolve().parent.parent / "ops_catalog.json"))
 STATE = HOME / "state.json"
 
 APP_ID = "936619743392459"
@@ -63,6 +66,7 @@ class IGDirect:
             self._save_state()
         self.doc_ids = {k: v["doc_id"] if isinstance(v, dict) else v
                         for k, v in (json.loads(DOC_IDS.read_text()) if DOC_IDS.exists() else {}).items()}
+        self.catalog = Catalog(CATALOG)
         self.s = requests.Session()
         self.s.headers.update({"User-Agent": UA, "Accept-Language": "en-GB,en;q=0.9"})
         self._raw_cookies = json.loads(COOKIES.read_text())
@@ -150,10 +154,10 @@ class IGDirect:
                 wait = WRITE_MIN_INTERVAL - (time.time() - self._last_write)
                 if wait > 0:
                     time.sleep(wait + random.uniform(0, 0.8))
-            t, doc = self.tokens, self.doc_ids.get(name)
+            t, doc = self.tokens, self.doc_ids.get(name) or self.catalog.doc_id(name)
             if not doc:
                 self.refresh_doc_ids()
-                doc = self.doc_ids.get(name)
+                doc = self.doc_ids.get(name) or self.catalog.doc_id(name)
                 if not doc:
                     raise IGError(f"no doc_id for {name}")
             data = {
@@ -402,3 +406,42 @@ class IGDirect:
             cursor = max(cursor, t["last_activity_ms"])
         new.sort(key=lambda m: m["timestamp_ms"])
         return {"since_ms": since_ms, "next_since_ms": cursor, "messages": new}
+
+    # ---------- generic access ----------
+    def op(self, name: str, overrides: dict | None = None, write=False, drop: tuple = ()):
+        """Call a catalogued GraphQL operation with its captured template + overrides."""
+        return self.gql(name, self.catalog.variables(name, overrides, drop), write=write)
+
+    def rest(self, method: str, path: str, params: dict | None = None, data: dict | None = None, write=False):
+        """Call a www.instagram.com/api/v1/... REST endpoint the web client still uses."""
+        self.bootstrap()
+        with self.lock:
+            if write:
+                wait = WRITE_MIN_INTERVAL - (time.time() - self._last_write)
+                if wait > 0:
+                    time.sleep(wait + random.uniform(0, 0.8))
+            csrf = self.s.cookies.get("csrftoken", domain=".instagram.com") or ""
+            h = {"X-IG-App-ID": APP_ID, "X-ASBD-ID": ASBD_ID, "X-CSRFToken": csrf, "X-Requested-With": "XMLHttpRequest",
+                 "X-IG-WWW-Claim": self.state.get("www_claim", "0"), "Referer": "https://www.instagram.com/",
+                 "Origin": "https://www.instagram.com"}
+            r = self.s.request(method, "https://www.instagram.com/api/v1/" + path.lstrip("/"), params=params, data=data,
+                               headers=h, timeout=30, allow_redirects=False)
+            if write:
+                self._last_write = time.time()
+        claim = r.headers.get("x-ig-set-www-claim")
+        if claim and claim != self.state.get("www_claim"):
+            self.state["www_claim"] = claim
+            self._save_state()
+        if r.status_code in (301, 302) or (r.status_code == 401 and "require_login" in r.text):
+            if "login" in (r.headers.get("location") or "") or "require_login" in r.text:
+                raise SessionExpired(f"REST {path}: {r.status_code}")
+        if r.status_code == 429:
+            raise IGError(f"REST {path}: rate limited by Instagram (429)", 429)
+        try:
+            j = r.json()
+        except ValueError:
+            raise IGError(f"REST {path}: HTTP {r.status_code}, not JSON (endpoint moved?)", 502, r.text[:200])
+        if r.status_code >= 400 or j.get("status") == "fail":
+            raise IGError(f"REST {path}: {j.get('message') or r.status_code}", 400 if r.status_code < 500 else 502, j)
+        self._persist_cookies()
+        return j

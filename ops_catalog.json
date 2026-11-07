@@ -1,0 +1,621 @@
+{
+ "IGDBadgeCountOffMsysQuery": {
+  "doc_id": "28939180542359933",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDMetaAIThreadingEnabledGKrelayprovider": false,
+   "device_id_for_iris_subscription": ""
+  }
+ },
+ "IGDChatTabsJewelOffMsysQuery": {
+  "doc_id": "30197608969842732",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDMetaAIThreadingEnabledGKrelayprovider": false,
+   "device_id_for_iris_subscription": ""
+  }
+ },
+ "IGDInboxHeaderOffMsysQuery": {
+  "doc_id": "28914252884904227",
+  "kind": "query",
+  "variables": {
+   "min_uq_seq_id": null,
+   "thread_fbid": ""
+  }
+ },
+ "IGDInboxTrayQuery": {
+  "doc_id": "29231580869776032",
+  "kind": "query",
+  "variables": {}
+ },
+ "IGDOmniPickerNullStateListQuery": {
+  "doc_id": "27657376130569675",
+  "kind": "query",
+  "variables": {
+   "input": {
+    "count_per_page": 20,
+    "is_private_share": false,
+    "views": [
+     "DIRECT_USER_SEARCH_NULLSTATE"
+    ]
+   }
+  }
+ },
+ "IGDSlideAsyncFetchAndInsertIGDViewerThreadQuery": {
+  "doc_id": "27985776521099278",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDMaxUnreadMessagesCountrelayprovider": 5,
+   "__relay_internal__pv__IGDPinnedThreadsRenderEnabledGKrelayprovider": true,
+   "__relay_internal__pv__IGDThreadListActionsEnabledGKrelayprovider": true,
+   "min_uq_seq_id": "",
+   "thread_fbid": ""
+  }
+ },
+ "IGDThreadDetailQuery": {
+  "doc_id": "28655271404173792",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDEnableOffMsysChatThemesQErelayprovider": false,
+   "__relay_internal__pv__IGDInitialMessagePageCountrelayprovider": 20,
+   "min_uq_seq_id": null,
+   "thread_fbid": ""
+  }
+ },
+ "IGDThreadListHeaderAccountSwitcherOffMsysQuery": {
+  "doc_id": "27105976072392132",
+  "kind": "query",
+  "variables": {}
+ },
+ "IGDirectTextSendMutation": {
+  "doc_id": "28737274835943013",
+  "kind": "mutation",
+  "variables": {
+   "commands": null,
+   "forwarded_from_thread_id": null,
+   "ig_thread_igid": "",
+   "is_forwarded_from_own_message": null,
+   "mentioned_user_ids": [],
+   "mentions": [],
+   "offline_threading_id": "",
+   "recipient_igids": null,
+   "replied_to_client_context": null,
+   "replied_to_item_id": null,
+   "reply_to_message_id": null,
+   "sampled": null,
+   "send_attribution": "",
+   "text": {
+    "sensitive_string_value": ""
+   }
+  }
+ },
+ "IGPresenceUnifiedSetupQuery": {
+  "doc_id": "28134060952867396",
+  "kind": "query",
+  "variables": {}
+ },
+ "PolarisAPIGetFrCookieQuery": {
+  "doc_id": "27399811883030165",
+  "kind": "query",
+  "variables": {
+   "_request_data": {},
+   "payload": ""
+  }
+ },
+ "PolarisAutomaticPreviewsDisabledContextProviderQuery": {
+  "doc_id": "36445470711719123",
+  "kind": "query",
+  "variables": {}
+ },
+ "PolarisClipsAdsPoolQuery": {
+  "doc_id": "29580187384918525",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "api_request": {
+    "client_view_state_media_list": [
+     {
+      "id": "",
+      "type": 128
+     },
+     {
+      "id": "",
+      "type": 128
+     },
+     {
+      "id": "",
+      "type": 128
+     },
+     {
+      "id": "",
+      "type": 128
+     }
+    ],
+    "container_module": "reels_tab",
+    "current_time_in_seconds_since_midnight": null,
+    "organic_item_ids": [],
+    "paging_token": "",
+    "skip_ad_insertion": false
+   },
+   "ig_www_migration_shadow_mapping_id": "",
+   "is_ads_enabled": true
+  }
+ },
+ "PolarisClipsTabDesktopContainerQuery": {
+  "doc_id": "29408308368800204",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "data": {
+    "chaining_media_id": "",
+    "container_module": "clips_tab_desktop_page",
+    "should_refetch_chaining_media": true
+   },
+   "first": 2,
+   "useChannelsPagination": false
+  }
+ },
+ "PolarisClipsTabDesktopContainerSeedMediaQuery": {
+  "doc_id": "28875242375469868",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "mediaId": ""
+  }
+ },
+ "PolarisClipsTabDesktopPaginationQuery": {
+  "doc_id": "28927794016879619",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": "",
+   "before": null,
+   "data": {
+    "chaining_media_id": "",
+    "container_module": "clips_tab_desktop_page",
+    "seen_reels": "",
+    "should_refetch_chaining_media": false
+   },
+   "first": 10,
+   "last": null
+  }
+ },
+ "PolarisDesktopPostPageRelatedMediaGridQuery": {
+  "doc_id": "28979035208359688",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "count": 7,
+   "media_owner_id": ""
+  }
+ },
+ "PolarisDirectInboxQPInterstitialQuery": {
+  "doc_id": "30341785555421179",
+  "kind": "query",
+  "variables": {}
+ },
+ "PolarisDirectInboxQuery": {
+  "doc_id": "28881837051457834",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDIsProfessionalAccountGKrelayprovider": false,
+   "__relay_internal__pv__IGDMaxUnreadMessagesCountrelayprovider": 5,
+   "__relay_internal__pv__IGDPinnedThreadsRenderEnabledGKrelayprovider": true,
+   "__relay_internal__pv__IGDThreadListActionsEnabledGKrelayprovider": true,
+   "device_id_for_iris_subscription": ""
+  }
+ },
+ "PolarisDirectMessageRequestQuery": {
+  "doc_id": "30071460809109024",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGD30DayAgoTimestampMsrelayprovider": "",
+   "__relay_internal__pv__IGDMaxUnreadMessagesCountrelayprovider": 5,
+   "__relay_internal__pv__IGDPinnedThreadsRenderEnabledGKrelayprovider": true,
+   "__relay_internal__pv__IGDThreadListActionsEnabledGKrelayprovider": true,
+   "device_id_for_iris_subscription": ""
+  }
+ },
+ "PolarisExploreLocationsContainerQuery": {
+  "doc_id": "28572807415659320",
+  "kind": "query",
+  "variables": {
+   "location_id_str": "",
+   "show_nearby": true
+  }
+ },
+ "PolarisFeedTimelineRootV2Query": {
+  "doc_id": "29361847640075296",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisSuggestedUserFeedUnitCardsEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": null,
+   "before": null,
+   "data": {
+    "device_id": "",
+    "is_async_ads_double_request": "",
+    "is_async_ads_in_headload_enabled": "",
+    "is_async_ads_rti": "",
+    "rti_delivery_backend": ""
+   },
+   "first": 3,
+   "last": null,
+   "variant": "home"
+  }
+ },
+ "PolarisHashtagHeaderActionButtonsQuery": {
+  "doc_id": "35337906325853853",
+  "kind": "query",
+  "variables": {
+   "tag_name": ""
+  }
+ },
+ "PolarisKeywordSearchExplorePageRelayQuery": {
+  "doc_id": "37324993597144881",
+  "kind": "query",
+  "variables": {
+   "query": "",
+   "search_session_id": "",
+   "serp_session_id": ""
+  }
+ },
+ "PolarisLocationPageTabContentQuery": {
+  "doc_id": "29012589461723978",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "location_id": "",
+   "page_size_override": 6,
+   "tab": "ranked"
+  }
+ },
+ "PolarisLocationPageTabContentQuery_connection": {
+  "doc_id": "29099176719715636",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "after": "",
+   "first": 12,
+   "location_id": "",
+   "page_size_override": 6,
+   "tab": "ranked"
+  }
+ },
+ "PolarisPostChildCommentsQuery": {
+  "doc_id": "29366382159668854",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisIsLoggedInrelayprovider": true,
+   "__relay_internal__pv__PolarisPinnedCommentsEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": null,
+   "before": null,
+   "first": null,
+   "last": null,
+   "parent_comment_id": ""
+  }
+ },
+ "PolarisPostCommentsContainerQuery": {
+  "doc_id": "29473122745606032",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisIsLoggedInrelayprovider": true,
+   "__relay_internal__pv__PolarisIsMobileWebrelayprovider": false,
+   "__relay_internal__pv__PolarisPinnedCommentsEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "media_id": ""
+  }
+ },
+ "PolarisPostCommentsPaginationQuery": {
+  "doc_id": "40792641187001157",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisIsLoggedInrelayprovider": true,
+   "__relay_internal__pv__PolarisIsMobileWebrelayprovider": false,
+   "__relay_internal__pv__PolarisPinnedCommentsEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": "",
+   "first": 10,
+   "is_mobile_web": false,
+   "media_id": "",
+   "sort_order": "popular"
+  }
+ },
+ "PolarisPostRootQuery": {
+  "doc_id": "29034823439507504",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "shortcode": ""
+  }
+ },
+ "PolarisProfileDirectOrPartnershipInboxMessageEligibilityQuery": {
+  "doc_id": "26821612144133136",
+  "kind": "query",
+  "variables": {
+   "ig_creator_user_id": ""
+  }
+ },
+ "PolarisProfileNoteBubbleQuery": {
+  "doc_id": "38260824646898178",
+  "kind": "query",
+  "variables": {
+   "user_id": ""
+  }
+ },
+ "PolarisProfilePageContentQuery": {
+  "doc_id": "40158838120366999",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisCASB976ProfileEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisCannesGuardianExperienceEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProfileInformTreatmentBannerEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisProfileRingsGradientEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisRepostsConsumptionEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisWebSchoolsEnabledrelayprovider": false,
+   "enable_integrity_filters": true,
+   "id": ""
+  }
+ },
+ "PolarisProfilePostsQuery": {
+  "doc_id": "40380470024877440",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "data": {
+    "count": 12,
+    "include_reel_media_seen_timestamp": true,
+    "include_relationship_info": true,
+    "latest_besties_reel_media": true,
+    "latest_reel_media": true
+   },
+   "username": ""
+  }
+ },
+ "PolarisProfilePostsTabContentQuery_connection": {
+  "doc_id": "29507206148877307",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": "",
+   "before": null,
+   "data": {
+    "count": 12,
+    "include_reel_media_seen_timestamp": true,
+    "include_relationship_info": true,
+    "latest_besties_reel_media": true,
+    "latest_reel_media": true
+   },
+   "first": 12,
+   "include_multi_captions": true,
+   "last": null,
+   "username": ""
+  }
+ },
+ "PolarisProfileReelsTabContentQuery": {
+  "doc_id": "28662115313489455",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "data": {
+    "include_feed_video": true,
+    "page_size": 12,
+    "target_user_id": ""
+   },
+   "user_id": ""
+  }
+ },
+ "PolarisProfileReelsTabContentQuery_connection": {
+  "doc_id": "28937525862583478",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "after": "",
+   "data": {
+    "include_feed_video": true,
+    "page_size": 12,
+    "target_user_id": ""
+   },
+   "first": 3,
+   "id": ""
+  }
+ },
+ "PolarisProfileSavedTabContentQuery": {
+  "doc_id": "27584326974521636",
+  "kind": "query",
+  "variables": {
+   "collection_types": [
+    "ALL_MEDIA_AUTO_COLLECTION",
+    "PLAYLIST_AUTO_COLLECTION",
+    "MEDIA",
+    "AUDIO_AUTO_COLLECTION"
+   ],
+   "first": 12
+  }
+ },
+ "PolarisProfileStoryHighlightsTrayContentQuery": {
+  "doc_id": "26970053832668570",
+  "kind": "query",
+  "variables": {
+   "user_id": ""
+  }
+ },
+ "PolarisProfileSuggestedUsersWithPreloadableQuery": {
+  "doc_id": "27929823133325729",
+  "kind": "query",
+  "variables": {
+   "module": "profile",
+   "target_id": ""
+  }
+ },
+ "PolarisProfileTaggedTabContentQuery": {
+  "doc_id": "28568771112805340",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "count": 12,
+   "user_id": ""
+  }
+ },
+ "PolarisSchoolPartnerProfileBadgeQuery": {
+  "doc_id": "28647748031575520",
+  "kind": "query",
+  "variables": {
+   "igid": ""
+  }
+ },
+ "PolarisStoriesV3HighlightsPageQuery": {
+  "doc_id": "29299425373007309",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisCommunityNoteStoriesLabelEnabledrelayprovider": true,
+   "first": 1,
+   "initial_reel_id": "",
+   "reel_ids": []
+  }
+ },
+ "PolarisStoriesV3ReelPageStandaloneQuery": {
+  "doc_id": "29341065465524437",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisCommunityNoteStoriesLabelEnabledrelayprovider": true,
+   "media_id": null,
+   "reel_ids_arr": []
+  }
+ },
+ "PolarisStoriesV3SeenMutation": {
+  "doc_id": "26234228992942885",
+  "kind": "mutation",
+  "variables": {
+   "reelId": "",
+   "reelMediaId": "",
+   "reelMediaOwnerId": "",
+   "reelMediaTakenAt": null,
+   "viewSeenAt": null
+  }
+ },
+ "PolarisStoriesV3TrayContainerQuery": {
+  "doc_id": "38657722893875056",
+  "kind": "query",
+  "variables": {
+   "data": {
+    "is_following_feed": false,
+    "reason": "web_home"
+   }
+  }
+ },
+ "PolarisSuggestedUserListQuery": {
+  "doc_id": "26631847903179252",
+  "kind": "query",
+  "variables": {
+   "data": {
+    "max_id": "",
+    "max_number_to_display": 20,
+    "module": "discover_people",
+    "paginate": true
+   },
+   "showMutualFollowersContext": true
+  }
+ },
+ "PolarisViewerSettingsQuery": {
+  "doc_id": "26606521538957974",
+  "kind": "query",
+  "variables": {}
+ },
+ "QuickPromotionSupportIGSchemaBatchFetchQuery": {
+  "doc_id": "28774579702164828",
+  "kind": "query",
+  "variables": {
+   "scale": 1,
+   "surface_nux_ids": [
+    "INSTAGRAM_FOR_WEB_LOGIN_INTERSTITIAL_QP"
+   ],
+   "trigger_context": null
+  }
+ },
+ "useFeatureLimitsOffMsysQuery": {
+  "doc_id": "28374543635529813",
+  "kind": "query",
+  "variables": {}
+ },
+ "useIGDMarkThreadAsReadMutation": {
+  "doc_id": "27399783383056109",
+  "kind": "mutation",
+  "variables": {
+   "data": {
+    "item_id": "",
+    "message_id": ""
+   },
+   "metadata": {
+    "ig_thread_igid": ""
+   }
+  }
+ },
+ "useIGDMarkThreadAsReadValidationMutation": {
+  "doc_id": "35211594988486314",
+  "kind": "mutation",
+  "variables": {
+   "data": {
+    "message_id": "",
+    "message_timestamp_ms": ""
+   },
+   "metadata": {
+    "ig_thread_igid": ""
+   }
+  }
+ },
+ "useIGDSystemFolderUnreadThreadCountQuery": {
+  "doc_id": "28687343074241941",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__IGDMetaAIThreadingEnabledGKrelayprovider": false,
+   "device_id_for_iris_subscription": "",
+   "folder": "PENDING",
+   "newer_than_timestamp_ms": ""
+  }
+ },
+ "useIGDirectAcceptMessageRequestMutation": {
+  "doc_id": "36571001125823973",
+  "kind": "mutation",
+  "variables": {
+   "ig_inbox_folder": null,
+   "offline_threading_id": "",
+   "thread_fbid": ""
+  }
+ },
+ "usePolarisNotificationsNavItemQuery": {
+  "doc_id": "26853171684350625",
+  "kind": "query",
+  "variables": {
+   "device_id": ""
+  }
+ }
+}
