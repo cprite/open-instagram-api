@@ -7,10 +7,11 @@ from pathlib import Path
 
 import uvicorn
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Query, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from igdm.instagram import Instagram, IGError
+from igdm.realtime import Hub
 
 HOME = Path(__file__).resolve().parent
 TOKEN_FILE = HOME / "api_token"
@@ -20,7 +21,7 @@ if not TOKEN_FILE.exists():
 API_TOKEN = TOKEN_FILE.read_text().strip()
 
 ig = Instagram()
-app = FastAPI(title="Open Instagram API", version="0.3")
+app = FastAPI(title="Open Instagram API", version="0.4")
 
 
 def auth(authorization: str = Header(default="")):
@@ -376,6 +377,39 @@ def edit_account(body: ProfileBody):
 @app.put("/account/privacy", dependencies=A)
 def set_privacy(body: PrivacyBody):
     return ig.set_private(body.private)
+
+
+# ======================= Realtime (WebSocket gateway -> Server-Sent Events) =======================
+hub = Hub(ig)
+
+
+@app.get("/events", dependencies=A)
+async def events(raw: bool = Query(False, description="include the raw delta")):
+    """Server-Sent Events stream of realtime DM events (new messages arrive in ~0.5 s).
+    Each event: `data: {"type": "message", "message": {...}}` (also "connected", "disconnected", "delta")."""
+    import asyncio
+    import json as _json
+    q = hub.subscribe()
+
+    async def gen():
+        try:
+            yield ": connected\n\n"
+            while True:
+                try:
+                    ev = await asyncio.wait_for(q.get(), timeout=15)
+                except asyncio.TimeoutError:
+                    yield ": keep-alive\n\n"
+                    continue
+                out = dict(ev) if raw else {k: v for k, v in ev.items() if k != "raw"}
+                yield f"data: {_json.dumps(out, ensure_ascii=False, default=str)}\n\n"
+        finally:
+            hub.unsubscribe(q)
+    return StreamingResponse(gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/events/status", dependencies=A)
+def events_status():
+    return {**hub.status, "subscribers": len(hub.subs)}
 
 
 if __name__ == "__main__":

@@ -163,25 +163,44 @@ and highlights on desktop, and muting chats (done over the Lightspeed WebSocket,
 
 ## 5. Realtime: Meta DGW WebSocket gateways
 
-The page opens:
+The page opens several gateway sockets:
 - `wss://gateway.instagram.com/ws/{lightspeed,realtime,streamcontroller,rpsignaling,mqttbypass}?x-dgw-appid=936619743392459&x-dgw-appversion=0&x-dgw-authtype=6:0&x-dgw-version=5&x-dgw-uuid=<actor id>&x-dgw-tier=prod&x-dgw-deviceid=<device uuid>`
 - `wss://edge-chat.instagram.com/chat?sid=…&cid=…` (the legacy MQTT channel)
 
-Binary frames: a 1-byte type, a 2-byte stream id, a length, then the payload. The observed types are:
-- `0x0F`: stream open/request, followed by `{"code":200}`
-- `0x0D`: data
-- `0x0C`: ack
-- `0x09`/`0x0A`: ping/pong
+**New DMs arrive on `lightspeed`** (about 0.3–0.5 s after sending). `igdm/realtime.py` implements it.
 
-Lightspeed sync request (JSON inside `0x0F`):
+### Framing
+
+Every frame is `[type:1][0x00 0x00][len:uint16 LE][0x00][payload:len]`; a WebSocket message can hold several.
+
+| type | meaning |
+|---|---|
+| `0x0f` | open stream; the server answers `{"code":200}` |
+| `0x0d` | data: payload = `[seq][0x80]` + JSON `{"request_id", "payload": base64(protobuf)}` |
+| `0x0c` | ack, payload `[seq, 0x00]` (the client acks every data frame) |
+| `0x09` / `0x0a` | ping / pong (single byte; the client pings every ~10 s) |
+
+### Subscribing
+
+Connect with the session cookies and `Origin: https://www.instagram.com`, then send one `0x0f` frame with `{}` and
+one `0x0d` frame with a sync request:
 
 ```json
-{"app_id":"936619743392459","device_id":"<uuid>","request_id":4,"type":2,
- "payload":"{\"database\":223,\"epoch_id\":0,\"failure_count\":0,\"last_applied_cursor\":\"{\\\"seq_id\\\":0}\",
-             \"sync_params\":\"{\\\"user_agent\\\":\\\"WMI Web\\\",\\\"prevalidated_graphql_doc_id\\\":\\\"…\\\"}\",\"version\":-3}"}
+{"app_id":"936619743392459","device_id":"<device uuid>","request_id":4,"type":2,
+ "payload":"{\"database\":223,\"epoch_id\":0,\"failure_count\":0,\"last_applied_cursor\":\"{\\\"seq_id\\\":<seq>}\",
+             \"sync_params\":\"{\\\"user_agent\\\":\\\"WMI Web\\\",\\\"snapshot_at_ms\\\":<now>,\\\"prevalidated_graphql_doc_id\\\":\\\"28290309580642466\\\"}\",\"version\":-3}"}
 ```
 
-Responses are base64 protobuf inside JSON.
+The device has to be registered first: run `PolarisDirectInboxQuery` with `device_id_for_iris_subscription` set to
+the same device uuid, and use its `iris_inactive_subscription_uq_seq_id` as `<seq>`. Without that the gateway answers
+with `MDCoreIrisOverflowDeviceNotFoundException` inside the protobuf payload and sends nothing.
+
+### Events
+
+The base64 payload is protobuf wrapping JSON GraphQL responses: `[{"data":{"slide_delta_processor":[…]}}]`.
+A new message is a delta with `__typename: "SlideUQPPNewMessage"` carrying the same message fields as
+`IGDThreadDetailQuery` (`message_id`, `text_body`, `sender_fbid`, `thread_fbid`, `content_type`, `timestamp_ms`,
+`content` with the reel/post share).
 
 Typing indicator (`mqttbypass`, a `0x0D` frame on topic `/ig_send_message`):
 
@@ -190,6 +209,3 @@ Typing indicator (`mqttbypass`, a `0x0D` frame on topic `/ig_send_message`):
 ```
 
 The server acks with `{"action":"item_ack","status":"ok",…}` on `/ig_send_message_response`.
-
-Sending, reading and marking seen don't use the sockets. The client in this repo uses polling and doesn't implement
-the gateway yet.

@@ -69,13 +69,28 @@ PUT    /account/privacy                      {"private": true}
 
 Add `?raw=1` to read endpoints to get Instagram's response untouched.
 
+## Realtime
+
+```
+GET    /events                               live DM events (Server-Sent Events), new messages in ~0.5 s
+GET    /events/status                        connected / disconnected
+```
+
+```bash
+curl -N -H "Authorization: Bearer $TOKEN" localhost:8765/events
+data: {"type": "message", "message": {"id": "...", "kind": "reel", "text": null, "thread_fbid": "...", ...}}
+```
+
+The server holds one connection to Instagram's own realtime gateway (the WebSocket instagram.com listens on)
+and reconnects by itself.
+
 **Not supported:** blocking/restricting, deleting posts, publishing reels, stories and highlights, editing or muting
 messages. Instagram only accepts these from its own website code or app, not from a script. See
 [docs/PROTOCOL.md](docs/PROTOCOL.md).
 
 ## Example
 
-`examples/reel_autoreply.py` auto-replies to reels while you're busy.
+`examples/reel_autoreply.py` auto-replies to reels while you're busy, about a second after they arrive.
 
 ## License
 

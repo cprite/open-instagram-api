@@ -4,6 +4,6 @@ uvicorn>=0.29
 pydantic>=2
 python-multipart>=0.0.9
 Pillow>=10
+websockets>=12
 # reverse-engineering tools only (tools/):
 playwright>=1.45
-websockets>=12
