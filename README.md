@@ -88,9 +88,10 @@ and reconnects by itself.
 messages. Instagram only accepts these from its own website code or app, not from a script. See
 [docs/PROTOCOL.md](docs/PROTOCOL.md).
 
-## Example
+## Examples
 
-`examples/reel_autoreply.py` auto-replies to reels while you're busy, about a second after they arrive.
+- `examples/reel_autoreply.py` auto-replies to reels while you're busy, about a second after they arrive.
+- `examples/gpt_command.py`: write `/gpt <question>` in any chat and a short answer from [Codex](https://github.com/openai/codex) appears there. It sees the recent chat and searches the web when needed.
 
 ## License
 
