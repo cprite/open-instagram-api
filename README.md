@@ -17,6 +17,8 @@ python3 server.py
 
 The API runs at `http://127.0.0.1:8765`. Send the token from `api_token` as `Authorization: Bearer <token>`.
 
+The scripts in `tools/` (for capturing new requests from the website) also need `pip install -r requirements-tools.txt`.
+
 ## Endpoints
 
 ```
