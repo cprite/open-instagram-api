@@ -1,0 +1,11 @@
+{
+  "name": "open-instagram-api",
+  "description": "Automate Instagram through a self-hosted Open Instagram API: DMs, realtime messages, photo posts, followers.",
+  "version": "1.0.0",
+  "author": { "name": "Nikolay Miroshnichenko", "url": "https://github.com/cprite" },
+  "homepage": "https://github.com/cprite/open-instagram-api",
+  "repository": "https://github.com/cprite/open-instagram-api",
+  "license": "MIT",
+  "keywords": ["instagram", "dm", "automation", "social-media", "bot"],
+  "skills": ["./skills/open-instagram-api"]
+}
