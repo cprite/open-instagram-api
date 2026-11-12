@@ -90,6 +90,12 @@ and reconnects by itself.
 messages. Instagram only accepts these from its own website code or app, not from a script. See
 [docs/PROTOCOL.md](docs/PROTOCOL.md).
 
+## Staying up to date
+
+Instagram changes its website often, and that can break endpoints. A health check runs every endpoint against a
+test account each day; when something breaks, a fix is made and pushed here, usually the same day. If an endpoint
+starts failing, pull the latest version (`git pull`) and restart the server.
+
 ## Examples
 
 - `examples/reel_autoreply.py` auto-replies to reels while you're busy, about a second after they arrive.
