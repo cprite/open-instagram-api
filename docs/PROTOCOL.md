@@ -133,7 +133,8 @@ All of these were captured from instagram.com and re-sent from a script; each wa
 | DM photo | `POST https://rupload.instagram.com/messenger_image/<uuid>?<page params>`, then `IGDirectMediaSendMutation` | `attachment_fbid`, `thread_id` |
 | unsend | `IGDMessageUnsendDialogOffMsysMutation` | `message_id`, `send_data.thread_id` (long thread id) |
 | react | `IGDirectReactionSendMutation` | `input: {emoji, message_id, thread_id, reaction_status: created\|deleted}` |
-| share to chat | `IGDirectReelShareMutation` | `ig_media_igid`, `data.thread_id` or `data.recipient_users` |
+| share reel to chat | `IGDirectReelShareMutation` (only for `product_type == "clips"`) | `ig_media_igid`, `data.thread_id` or `data.recipient_users` |
+| share post to chat | `IGDirectMediaShareMutation` (every non-reel post; the reel mutation returns `null` for these) | `data.media_id` (pk), `send_data.thread_id` or `send_data.recipient_users`, `send_data.offline_threading_id` |
 | older messages | `IGDMessageListOffMsysQuery` | `id` (thread_fbid), `after` (cursor), `first` |
 | edit profile | REST `POST /api/v1/web/accounts/edit/` (form) | `biography`, `first_name`, `username`, `chaining_enabled` |
 | private / public | `useSettings2UpdateBooleanStorageMutation` | `storage_id: "account_privacy_setting"`, `value`, `callsite` |

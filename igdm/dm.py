@@ -5,7 +5,8 @@ Captured from the instagram.com chat:
           -> {"media_id": <attachment fbid>}  ->  IGDirectMediaSendMutation {attachment_fbid, thread_id, offline_threading_id}
   unsend: IGDMessageUnsendDialogOffMsysMutation {message_id, send_data: {thread_id: <long thread_id>}}
   react:  IGDirectReactionSendMutation {input: {emoji, message_id, thread_id, reaction_status: created|deleted}}
-  share:  IGDirectReelShareMutation {ig_media_igid, otid, data: {thread_id | recipient_users}, clip_share_params}
+  share:  reels: IGDirectReelShareMutation {ig_media_igid, otid, data: {thread_id | recipient_users}, clip_share_params}
+          other posts: IGDirectMediaShareMutation {data: {media_id}, send_data: {thread_id | recipient_users, offline_threading_id}}
   older:  IGDMessageListOffMsysQuery {id: thread_fbid, after: cursor, first}
 Not available on the web client: editing messages (the web menu only offers Forward / Pin / Unsend).
 Mute/unmute goes over the Lightspeed WebSocket, which this client doesn't speak.
@@ -81,6 +82,16 @@ class DMMixin:
             raise IGError("give thread_fbid or users", 400)
         otid = _otid()
         recipients = __import__("json").dumps([self.user_id(u) for u in users]) if users else None
+        send_data = {"forwarded_from_thread_id": None, "is_forwarded_from_own_message": None, "offline_threading_id": otid,
+                     "recipient_users": recipients, "thread_id": None if recipients else str(thread_fbid)}
+        # the web share sheet sends reels (product_type "clips") via IGDirectReelShareMutation and every other
+        # post via IGDirectMediaShareMutation (IGDMAPISendMediaShare); the reel mutation returns null for photos
+        if self.media_info(code).get("kind") != "reel":
+            d = self.gql("IGDirectMediaShareMutation", {"data": {"media_id": pk}, "send_data": send_data}, write=True)
+            r = d.get("direct_media_share_with_slide_response") or {}
+            if not r.get("message_id"):
+                raise IGError("share returned no message_id", 502, d)
+            return {"message_id": r["message_id"], "timestamp_ms": int(r.get("timestamp_ms") or 0)}
         d = self.op("IGDirectReelShareMutation", {
             "ig_media_igid": pk, "otid": otid,
             "data": {"forwarded_from_thread_id": None, "is_forwarded_from_own_message": None, "offline_threading_id": otid,
