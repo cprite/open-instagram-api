@@ -96,6 +96,17 @@ Instagram changes its website often, and that can break endpoints. A health chec
 test account each day; when something breaks, a fix is made and pushed here, usually the same day. If an endpoint
 starts failing, pull the latest version (`git pull`) and restart the server.
 
+## Use it from an AI agent
+
+The repository ships a skill that teaches Claude Code, OpenClaw and other agents how to use this API
+([skills/open-instagram-api/SKILL.md](skills/open-instagram-api/SKILL.md)).
+
+```bash
+/plugin install open-instagram-api --marketplace cprite/open-instagram-api   # Claude Code
+openclaw skills install @cprite/open-instagram-api                           # OpenClaw (ClawHub)
+npx skills add cprite/open-instagram-api                                     # any agent (skills.sh)
+```
+
 ## Examples
 
 - `examples/reel_autoreply.py` auto-replies to reels while you're busy, about a second after they arrive.
