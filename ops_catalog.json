@@ -37,7 +37,7 @@
   "variables": {}
  },
  "IGDMessageListOffMsysQuery": {
-  "doc_id": "28947835764870439",
+  "doc_id": "29008944932098151",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__IGDInitialMessagePageCountrelayprovider": 20,
@@ -85,7 +85,7 @@
   }
  },
  "IGDThreadDetailQuery": {
-  "doc_id": "28655271404173792",
+  "doc_id": "29620840297508799",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__IGDEnableOffMsysChatThemesQErelayprovider": false,
@@ -371,7 +371,7 @@
   }
  },
  "PolarisLocationPageTabContentQuery": {
-  "doc_id": "29012589461723978",
+  "doc_id": "29798574583079936",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
@@ -382,7 +382,7 @@
   }
  },
  "PolarisLocationPageTabContentQuery_connection": {
-  "doc_id": "29099176719715636",
+  "doc_id": "40546488024949589",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
@@ -420,11 +420,12 @@
   }
  },
  "PolarisPostCommentsContainerQuery": {
-  "doc_id": "29473122745606032",
+  "doc_id": "28967752479583802",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisIsLoggedInrelayprovider": true,
    "__relay_internal__pv__PolarisIsMobileWebrelayprovider": false,
+   "__relay_internal__pv__PolarisLikedByAuthorBadgeEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisPinnedCommentsEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
    "media_id": ""
@@ -446,13 +447,14 @@
   }
  },
  "PolarisPostRootQuery": {
-  "doc_id": "29034823439507504",
+  "doc_id": "28964656396525496",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "include_longform_landscape_cover": false,
    "shortcode": ""
   }
  },
@@ -486,7 +488,7 @@
   }
  },
  "PolarisProfilePostsQuery": {
-  "doc_id": "40380470024877440",
+  "doc_id": "29114630661562380",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
@@ -505,7 +507,7 @@
   }
  },
  "PolarisProfilePostsTabContentQuery_connection": {
-  "doc_id": "29507206148877307",
+  "doc_id": "29290744380560118",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
@@ -665,7 +667,7 @@
   }
  },
  "PolarisStoriesV3ReelPageStandaloneQuery": {
-  "doc_id": "29341065465524437",
+  "doc_id": "28739385832429456",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisCommunityNoteStoriesLabelEnabledrelayprovider": true,
