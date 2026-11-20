@@ -184,7 +184,10 @@ class Realtime:
                 yield {"type": "disconnected", "error": f"{type(e).__name__}: {str(e)[:160]}"}
                 await asyncio.sleep(backoff)
                 backoff = min(backoff * 2, 120)
-                await asyncio.to_thread(self.ig.bootstrap, True)
+                try:     # a failure here (e.g. DNS blip) must not end the loop, or the stream stays down for good
+                    await asyncio.to_thread(self.ig.bootstrap, True)
+                except Exception:
+                    pass
 
 
 class Hub:
@@ -196,12 +199,20 @@ class Hub:
         self.status = {"state": "idle"}
 
     async def _pump(self):
-        async for ev in self.rt.events():
-            if ev["type"] in ("connected", "disconnected"):
-                self.status = {"state": ev["type"], "at_ms": int(time.time() * 1000), **({"error": ev["error"]} if ev.get("error") else {})}
-            for q in list(self.subs):
-                if q.qsize() < 1000:
-                    q.put_nowait(ev)
+        while True:      # never let the shared connection die silently; restart the event loop on any error
+            try:
+                async for ev in self.rt.events():
+                    self._publish(ev)
+            except Exception as e:
+                self._publish({"type": "disconnected", "error": f"{type(e).__name__}: {str(e)[:160]}"})
+                await asyncio.sleep(30)
+
+    def _publish(self, ev):
+        if ev["type"] in ("connected", "disconnected"):
+            self.status = {"state": ev["type"], "at_ms": int(time.time() * 1000), **({"error": ev["error"]} if ev.get("error") else {})}
+        for q in list(self.subs):
+            if q.qsize() < 1000:
+                q.put_nowait(ev)
 
     def subscribe(self) -> asyncio.Queue:
         q = asyncio.Queue()
