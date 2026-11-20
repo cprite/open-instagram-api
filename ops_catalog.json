@@ -233,7 +233,7 @@
   }
  },
  "PolarisClipsTabDesktopContainerQuery": {
-  "doc_id": "29408308368800204",
+  "doc_id": "29389886087287073",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
@@ -249,7 +249,7 @@
   }
  },
  "PolarisClipsTabDesktopContainerSeedMediaQuery": {
-  "doc_id": "28875242375469868",
+  "doc_id": "29221387644156782",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
@@ -332,7 +332,7 @@
   }
  },
  "PolarisFeedTimelineRootV2Query": {
-  "doc_id": "29361847640075296",
+  "doc_id": "29233130896381434",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
@@ -448,7 +448,7 @@
   }
  },
  "PolarisPostRootQuery": {
-  "doc_id": "29313237911618513",
+  "doc_id": "29243970241927655",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
