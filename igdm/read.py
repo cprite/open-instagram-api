@@ -254,16 +254,23 @@ class ReadMixin:
 
     # ---------- feeds ----------
     def timeline(self, cursor: str | None = None, raw=False):
-        j = self.rest("GET", "feed/timeline/", {"max_id": cursor} if cursor else None)
+        # REST feed/timeline/ now 302s; the web feed is GraphQL (first page preloaded, then a pagination query)
+        if cursor:
+            d = self.op("PolarisFeedRootPaginationCachedQuery_subscribe", {"after": cursor})
+        else:
+            d = self.op("PolarisFeedTimelineRootV2Query", {"first": 12})
         if raw:
-            return j
+            return d
+        c = d.get("xdt_api__v1__feed__timeline__connection") or {}
         items = []
-        for x in j.get("feed_items") or []:
-            suggested = "explore_story" in x
-            m = (x.get("explore_story") or x).get("media_or_ad") or {}
-            if m.get("code") and not m.get("injected"):      # skip ads (injected)
+        for e in c.get("edges") or []:
+            n = e.get("node") or {}
+            suggested = bool(n.get("explore_story"))
+            m = n.get("media") or (n.get("explore_story") or {}).get("media") or {}   # ads come in node.ad: skipped
+            if m.get("code") and not m.get("injected"):
                 items.append({**media(m), "suggested": suggested})
-        return {"items": items, "next_cursor": j.get("next_max_id") if j.get("more_available") else None}
+        pi = c.get("page_info") or {}
+        return {"items": items, "next_cursor": pi.get("end_cursor") if pi.get("has_next_page") else None}
 
     def reels_feed(self, cursor: str | None = None, raw=False):
         d = self.op("PolarisClipsTabDesktopPaginationQuery", {"after": cursor})

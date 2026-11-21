@@ -103,13 +103,13 @@ under `"expectedPreloaders":[{"queryID","variables","queryName"}]`, which the ca
 | location | `PolarisLocationPageTabContentQuery` (preloaded) / `…_connection` | `location_id`, `tab: ranked\|recent`, `after` |
 | likers | REST `GET /api/v1/media/<pk>/likers/` | |
 | followers | REST `GET /api/v1/friendships/<pk>/followers/` (`following/`) | `count`, `max_id` |
-| home feed | REST `GET /api/v1/feed/timeline/` | `max_id` |
+| home feed | `PolarisFeedTimelineRootV2Query` (preloaded), then `PolarisFeedRootPaginationCachedQuery_subscribe` | `first`, `after`, `variant: home` |
 | explore | REST `GET /api/v1/discover/web/explore_grid/` | `max_id` |
 | notifications | REST `GET /api/v1/news/inbox/` | |
 
 Observations:
 - **Gone from web REST:** `users/web_profile_info` (always 429 outside Instagram's own page loads), `users/<pk>/info`,
-  `feed/user/<pk>`, `media/<pk>/comments`, `web/search/topsearch`.
+  `feed/user/<pk>`, `media/<pk>/comments`, `web/search/topsearch`, `feed/timeline/` (302 since 2026-11-21).
 - **Username to pk:** the plain-HTTP profile page carries no ids; exact match in search results is reliable (works for
   private accounts too).
 - **Follower lists of other people's large accounts** stop after the first page
