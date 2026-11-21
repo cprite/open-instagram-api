@@ -331,12 +331,13 @@
    "show_nearby": true
   }
  },
- "PolarisFeedTimelineRootV2Query": {
-  "doc_id": "29233130896381434",
+ "PolarisFeedRootPaginationCachedQuery_subscribe": {
+  "doc_id": "29614052288226084",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisSuggestedUserFeedUnitCardsEnabledrelayprovider": true,
@@ -348,10 +349,33 @@
     "is_async_ads_double_request": "",
     "is_async_ads_in_headload_enabled": "",
     "is_async_ads_rti": "",
+    "pagination_source": "feed_recs",
+    "rti_delivery_backend": ""
+   },
+   "first": 12,
+   "last": null,
+   "variant": "home"
+  }
+ },
+ "PolarisFeedTimelineRootV2Query": {
+  "doc_id": "29490778127205427",
+  "kind": "query",
+  "variables": {
+   "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisSuggestedUserFeedUnitCardsEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "data": {
+    "device_id": "",
+    "is_async_ads_double_request": "",
+    "is_async_ads_in_headload_enabled": "",
+    "is_async_ads_rti": "",
     "rti_delivery_backend": ""
    },
    "first": 3,
-   "last": null,
    "variant": "home"
   }
  },
