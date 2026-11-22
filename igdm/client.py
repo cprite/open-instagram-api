@@ -346,6 +346,7 @@ class IGDirect:
             "min_uq_seq_id": None, "thread_fbid": str(thread_fbid),
             "__relay_internal__pv__IGDEnableOffMsysChatThemesQErelayprovider": False,
             "__relay_internal__pv__IGDInitialMessagePageCountrelayprovider": 20,
+            "__relay_internal__pv__IGDHideSeenWhenReadReceiptsOffGKrelayprovider": False,
             "__relay_internal__pv__IGDSafetyNoticesWebEnabledrelayprovider": False})
         t = (d.get("get_slide_thread_nullable") or {}).get("as_ig_direct_thread")
         if not t:

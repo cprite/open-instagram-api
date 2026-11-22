@@ -85,10 +85,11 @@
   }
  },
  "IGDThreadDetailQuery": {
-  "doc_id": "29486096901027304",
+  "doc_id": "40139187875726817",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__IGDEnableOffMsysChatThemesQErelayprovider": false,
+   "__relay_internal__pv__IGDHideSeenWhenReadReceiptsOffGKrelayprovider": false,
    "__relay_internal__pv__IGDInitialMessagePageCountrelayprovider": 20,
    "__relay_internal__pv__IGDSafetyNoticesWebEnabledrelayprovider": false,
    "min_uq_seq_id": null,
@@ -472,11 +473,12 @@
   }
  },
  "PolarisPostRootQuery": {
-  "doc_id": "29243970241927655",
+  "doc_id": "40438659059082649",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
    "include_longform_landscape_cover": false,
@@ -513,10 +515,11 @@
   }
  },
  "PolarisProfilePostsQuery": {
-  "doc_id": "27014165781614298",
+  "doc_id": "30543471925243353",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
@@ -532,10 +535,11 @@
   }
  },
  "PolarisProfilePostsTabContentQuery_connection": {
-  "doc_id": "29305871032413073",
+  "doc_id": "29597370573235791",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisSEOIsCrawlerrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
@@ -692,7 +696,7 @@
   }
  },
  "PolarisStoriesV3ReelPageStandaloneQuery": {
-  "doc_id": "28739385832429456",
+  "doc_id": "39989351314045574",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisCommunityNoteStoriesLabelEnabledrelayprovider": true,
