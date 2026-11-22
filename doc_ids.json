@@ -1,7 +1,7 @@
 {
  "PolarisDirectInboxQuery": "28881837051457834",
  "PolarisDirectMessageRequestQuery": "30071460809109024",
- "IGDThreadDetailQuery": "29486096901027304",
+ "IGDThreadDetailQuery": "40139187875726817",
  "IGDirectTextSendMutation": "28737274835943013",
  "useIGDMarkThreadAsReadMutation": "27399783383056109",
  "useIGDirectAcceptMessageRequestMutation": "36571001125823973",
