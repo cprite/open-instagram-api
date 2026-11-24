@@ -427,7 +427,8 @@ class IGDirect:
             csrf = self.s.cookies.get("csrftoken", domain=".instagram.com") or ""
             h = {"X-IG-App-ID": APP_ID, "X-ASBD-ID": ASBD_ID, "X-CSRFToken": csrf, "X-Requested-With": "XMLHttpRequest",
                  "X-IG-WWW-Claim": self.state.get("www_claim", "0"), "Referer": "https://www.instagram.com/",
-                 "Origin": "https://www.instagram.com"}
+                 "Origin": "https://www.instagram.com", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "cors",
+                 "Sec-Fetch-Dest": "empty"}
             if write:
                 h["X-Instagram-AJAX"] = str(self.tokens.get("rev") or "")
                 dt = self.tokens.get("fb_dtsg_full") or self.tokens.get("fb_dtsg")

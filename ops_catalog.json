@@ -500,11 +500,12 @@
   }
  },
  "PolarisProfilePageContentQuery": {
-  "doc_id": "40158838120366999",
+  "doc_id": "29609640381972919",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisCASB976ProfileEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisCannesGuardianExperienceEnabledrelayprovider": true,
+   "__relay_internal__pv__PolarisDSA16EntrypointEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisProfileInformTreatmentBannerEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisProfileRingsGradientEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisRepostsConsumptionEnabledrelayprovider": true,
@@ -515,7 +516,7 @@
   }
  },
  "PolarisProfilePostsQuery": {
-  "doc_id": "30543471925243353",
+  "doc_id": "29911767465181002",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,

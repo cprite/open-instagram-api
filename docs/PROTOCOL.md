@@ -36,6 +36,8 @@ All page-scoped values are in the HTML of `/direct/inbox/`:
 
 `X-FB-Friendly-Name: <Operation>`, `X-FB-LSD`, `X-CSRFToken: <csrftoken cookie>`, `X-IG-App-ID: 936619743392459`,
 `X-ASBD-ID: 359341`, `Origin`/`Referer: https://www.instagram.com/...`, and `Sec-Fetch-*: same-origin/cors/empty`.
+REST `/api/v1/...` calls need the same `Sec-Fetch-*` headers: without them `friendships/<pk>/followers/` answers
+`200` with an HTML page instead of JSON.
 
 ### Discovering doc_ids
 
