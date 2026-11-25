@@ -333,10 +333,11 @@
   }
  },
  "PolarisFeedRootPaginationCachedQuery_subscribe": {
-  "doc_id": "29614052288226084",
+  "doc_id": "40856843000596438",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisDSA16EntrypointEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
@@ -359,16 +360,19 @@
   }
  },
  "PolarisFeedTimelineRootV2Query": {
-  "doc_id": "29490778127205427",
+  "doc_id": "29827794186910521",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisDSA16EntrypointEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisReelsRecoDebugOverlayEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisSuggestedUserFeedUnitCardsEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisThreadsStyleCommentsEnabledrelayprovider": false,
+   "after": null,
+   "before": null,
    "data": {
     "device_id": "",
     "is_async_ads_double_request": "",
@@ -377,6 +381,7 @@
     "rti_delivery_backend": ""
    },
    "first": 3,
+   "last": null,
    "variant": "home"
   }
  },
@@ -473,10 +478,11 @@
   }
  },
  "PolarisPostRootQuery": {
-  "doc_id": "40438659059082649",
+  "doc_id": "28931583176534666",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisAdDebugToolEnabledrelayprovider": false,
+   "__relay_internal__pv__PolarisDSA16EntrypointEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
    "__relay_internal__pv__PolarisProductTagIndicatorEnabledrelayprovider": false,
    "__relay_internal__pv__PolarisShortDramaEnabledrelayprovider": true,
@@ -536,7 +542,7 @@
   }
  },
  "PolarisProfilePostsTabContentQuery_connection": {
-  "doc_id": "29597370573235791",
+  "doc_id": "39818828461098125",
   "kind": "query",
   "variables": {
    "__relay_internal__pv__PolarisMultiCaptionCarouselEnabledrelayprovider": true,
@@ -740,9 +746,11 @@
   }
  },
  "PolarisViewerSettingsQuery": {
-  "doc_id": "26606521538957974",
+  "doc_id": "29440269728902299",
   "kind": "query",
-  "variables": {}
+  "variables": {
+   "__relay_internal__pv__IGDHideSeenWhenReadReceiptsOffGKrelayprovider": false
+  }
  },
  "QuickPromotionSupportIGSchemaBatchFetchQuery": {
   "doc_id": "28774579702164828",
